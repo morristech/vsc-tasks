@@ -15,7 +15,8 @@
     "onCommand:extension.addTask",
     "onCommand:extension.addTaskAbove",
     "onCommand:extension.completeTask",
-    "onCommand:extension.cancelTask"
+    "onCommand:extension.cancelTask",
+    "onCommand:extension.convertTask"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -25,7 +26,7 @@
         "title": "Tasks: Add Task"
       },
       {
-        "command": "extension.addTask",
+        "command": "extension.addTaskAbove",
         "title": "Tasks: Add Task above"
       },
       {
@@ -35,6 +36,10 @@
       {
         "command": "extension.cancelTask",
         "title": "Tasks: Cancel Task"
+      },
+      {
+        "command": "extension.convertTask",
+        "title": "Tasks: Convert Task"
       }
     ],
     "keybindings": [
@@ -45,7 +50,7 @@
       },
       {
         "key": "alt+shift+enter",
-        "command": "extension.addTask",
+        "command": "extension.addTaskAbove",
         "when": "editorTextFocus"
       },
       {
@@ -56,6 +61,11 @@
       {
         "key": "alt+a",
         "command": "extension.cancelTask",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "alt+c",
+        "command": "extension.convertTask",
         "when": "editorTextFocus"
       }
     ]
