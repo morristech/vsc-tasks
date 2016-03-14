@@ -33,7 +33,9 @@ class Task {
     private config = {
         baseMarker: '☐',
         cancelMarker: '✘',
-        completeMarker: '✔'
+        completeMarker: '✔',
+        doneMessage: ' @done',
+        cancelMessage: ' @canceled'
     };    
     
     public add(stage: boolean): any {
@@ -83,20 +85,18 @@ class Task {
         let containsComplete = info.lineText.indexOf(this.config.completeMarker);
         let containsCancel = info.lineText.indexOf(this.config.cancelMarker);
         if (containsBase !== -1) {
-            let newLine = info.lineText.replace(this.config.baseMarker, info.marker);        
+            let newLine = info.lineText.replace(this.config.baseMarker, info.marker) + this.config.doneMessage;
             editor.edit ( editBuilder => {
                 editBuilder.replace(info.lineRange, newLine);
             })
         } else if (containsComplete !== -1) {
-            let newLine = info.lineText.replace(this.config.completeMarker, this.config.baseMarker);        
+            let newLine = info.lineText.replace(this.config.completeMarker, this.config.baseMarker).replace(this.config.doneMessage, '');   
             editor.edit ( editBuilder => {
                 editBuilder.replace(info.lineRange, newLine);
             })
         } else if (containsCancel !== -1) {
             vscode.window.showErrorMessage('You already canceled this Task. Uncancel it to keep going... ');
         }
-        
-        //append "done" Message
     }
     
     public cancel(): any {
@@ -116,23 +116,21 @@ class Task {
         let containsComplete = info.lineText.indexOf(this.config.completeMarker);
         let containsCancel = info.lineText.indexOf(this.config.cancelMarker);
         if (containsBase !== -1) {
-            let newLine = info.lineText.replace(this.config.baseMarker, info.marker);        
+            let newLine = info.lineText.replace(this.config.baseMarker, info.marker) + this.config.cancelMessage;        
             editor.edit ( editBuilder => {
                 editBuilder.replace(info.lineRange, newLine);
             })
         } else if (containsComplete !== -1) {
-            let newLine = info.lineText.replace(this.config.completeMarker, info.marker);        
+            let newLine = info.lineText.replace(this.config.completeMarker, info.marker).replace(this.config.doneMessage, this.config.cancelMessage);    
             editor.edit ( editBuilder => {
                 editBuilder.replace(info.lineRange, newLine);
             })
         } else if (containsCancel !== -1) {
-            let newLine = info.lineText.replace(this.config.cancelMarker, this.config.baseMarker);        
+            let newLine = info.lineText.replace(this.config.cancelMarker, this.config.baseMarker).replace(this.config.cancelMessage, '');        
             editor.edit ( editBuilder => {
                 editBuilder.replace(info.lineRange, newLine);
             })
         }
-        
-        //append "cancel" Message
     }
     
     private getLineinfo(editor, lineNumber: number, marker: string): Object {
