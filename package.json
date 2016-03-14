@@ -4,6 +4,7 @@
   "description": "Handle tasks/todo files in Visual Studio Code",
   "version": "0.1.0",
   "publisher": "walli",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^0.10.10"
   },
