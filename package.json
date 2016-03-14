@@ -22,7 +22,7 @@
                 "command": "extension.addTask",
                 "title": "Tasks: Add Task"
                 }, {
-                "command": "extension.addTaskAbove",
+                "command": "extension.addTask",
                 "title": "Tasks: Add Task above"
             }, {
                 "command": "extension.completeTask",
@@ -37,7 +37,7 @@
                 "when": "editorTextFocus"
             }, {
                 "key": "alt+shift+enter",
-                "command": "extension.addTaskAbove",
+                "command": "extension.addTask",
                 "when": "editorTextFocus"
             }, {
                 "key": "alt+d",

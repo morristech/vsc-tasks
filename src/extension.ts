@@ -46,23 +46,21 @@ class Task {
         let currentLine = editor.selection.active.line; //starts with 0
         
         //get info
-        let info = this.getLineinfo(editor, currentLine, this.config.baseMarker);
+        let info: any = this.getLineinfo(editor, currentLine, this.config.baseMarker);
         
         //insert line below or above
         stage ? insertLineBelow() : insertLineAbove()
         
-        //insert marker text
-        
-        //intend marker text
+        //helper-functions
         function insertLineBelow(): any {
             editor.edit( editBuilder => {
-                editBuilder.insert(info.lineEnd, '\n');
+                editBuilder.insert(info.lineEnd, EOL+'\t'+info.marker+' ');
             })
         }
         
         function insertLineAbove(): any {
             editor.edit( editBuilder => {
-                editBuilder.insert(info.lineStart, '\n');
+                editBuilder.insert(info.lineStart, EOL+'\t'+info.marker+' ');
             })
         }
     }
@@ -74,10 +72,29 @@ class Task {
         }
         
         //get current position
+        let currentLine = editor.selection.active.line; //starts with 0
         
         //get info
+        let info:any = this.getLineinfo(editor, currentLine, this.config.completeMarker);
         
         //baseMarker ? replace baseMarker with CompleteMarker : replace CompleteMarker with baseMarker
+        let contains = info.lineText.indexOf(this.config.baseMarker);
+        let containsBase = info.lineText.indexOf(this.config.baseMarker) 
+        let containsComplete = info.lineText.indexOf(this.config.completeMarker);
+        let containsCancel = info.lineText.indexOf(this.config.cancelMarker);
+        if (containsBase !== -1) {
+            let newLine = info.lineText.replace(this.config.baseMarker, info.marker);        
+            editor.edit ( editBuilder => {
+                editBuilder.replace(info.lineRange, newLine);
+            })
+        } else if (containsComplete !== -1) {
+            let newLine = info.lineText.replace(this.config.completeMarker, this.config.baseMarker);        
+            editor.edit ( editBuilder => {
+                editBuilder.replace(info.lineRange, newLine);
+            })
+        } else if (containsCancel !== -1) {
+            vscode.window.showErrorMessage('You already canceled this Task. Uncancel it to keep going... ');
+        }
         
         //append "done" Message
     }
@@ -89,25 +106,47 @@ class Task {
         }
         
         //get current position
+        let currentLine = editor.selection.active.line; //starts with 0
         
         //get info
+        let info: any = this.getLineinfo(editor, currentLine, this.config.cancelMarker);
         
-        //replace baseMarker || CompleteMarker with cancelMarker
+        //baseMarker || completeMarker ? replace with cancelMarker
+        let containsBase = info.lineText.indexOf(this.config.baseMarker) 
+        let containsComplete = info.lineText.indexOf(this.config.completeMarker);
+        let containsCancel = info.lineText.indexOf(this.config.cancelMarker);
+        if (containsBase !== -1) {
+            let newLine = info.lineText.replace(this.config.baseMarker, info.marker);        
+            editor.edit ( editBuilder => {
+                editBuilder.replace(info.lineRange, newLine);
+            })
+        } else if (containsComplete !== -1) {
+            let newLine = info.lineText.replace(this.config.completeMarker, info.marker);        
+            editor.edit ( editBuilder => {
+                editBuilder.replace(info.lineRange, newLine);
+            })
+        } else if (containsCancel !== -1) {
+            let newLine = info.lineText.replace(this.config.cancelMarker, this.config.baseMarker);        
+            editor.edit ( editBuilder => {
+                editBuilder.replace(info.lineRange, newLine);
+            })
+        }
         
         //append "cancel" Message
     }
     
     private getLineinfo(editor, lineNumber: number, marker: string): Object {
-        let line = editor.document.lineAt(lineNumber).text;
-        let firstNWSC = editor.document.lineAt(lineNumber).firstNonWhitespaceCharacterIndex;
+        let lineText = editor.document.lineAt(lineNumber).text;
+        let lineRange = editor.document.lineAt(lineNumber).range;
         let lineStart = editor.document.lineAt(lineNumber).range.start;
         let lineEnd = editor.document.lineAt(lineNumber).range.end;
         let result = {
             lineNumber: lineNumber,
-            line: line,
+            lineText: lineText,
+            lineRange: lineRange,
             lineStart: lineStart,
             lineEnd: lineEnd,
-            firstNWSC: firstNWSC
+            marker: marker
         };
         return result;
     }
@@ -115,5 +154,4 @@ class Task {
     dispose(): any {}
 }
 
-export function deactivate() {
-}
+export function deactivate() {}

@@ -1,13 +1,10 @@
-# README
-## This is the README for your extension "vsc-tasks" 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+## vsc-tasks
+Special formatting for todo files. You can add, complete or cancel your tasks
+![example-light](https://raw.githubusercontent.com/walllk/vsc-tasks/tree/master/images/light.png)
+![example-dark](https://raw.githubusercontent.com/walllk/vsc-tasks/tree/master/images/dark.png)
 
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-** Enjoy!**
+## Hotkeys
+* **alt-enter:** add a new todo item below the current
+* **alt-shift-enter:** add a new todo item above the current (coming soon)
+* **alt-d:** toggle completion for current task
+* **alt-a:** cancel current task
