@@ -14,3 +14,11 @@ Open the Command Palette in Visual Studio Code (Ctrl+Shift+P) and enter:
 * **Alt-Shift-Enter:** add a new todo item above the current (coming soon)
 * **Alt-D:** toggle completion for current task
 * **Alt-A:** cancel current task
+
+## Contribute
+Soucre: [https://github.com/walllk/vsc-tasks]
+
+    git clone https://github.com/walllk/vsc-tasks
+    cd vsc-tasks
+    npm install
+    code .

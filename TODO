@@ -1,8 +1,8 @@
 FEATURES:
-- add task above
-- add done message
-- add cancel message
+	☐ add task above
+	☐ add done message
+	☐ add cancel message
 
 Design:
-- Syntax-Highlight
-- todo-files only
+	☐ Syntax-Highlight
+	☐ todo-files only
