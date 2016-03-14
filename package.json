@@ -1,61 +1,71 @@
 {
-	"name": "vsc-tasks",
-	"displayName": "vsc-tasks",
-	"description": "Handle tasks/todo files in Visual Studio Code",
-	"version": "0.0.1",
-	"publisher": "walli",
-	"engines": {
-		"vscode": "^0.10.10"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
+    "name": "vsc-tasks",
+    "displayName": "vsc-tasks",
+    "description": "Handle tasks/todo files in Visual Studio Code",
+    "version": "0.1.0",
+    "publisher": "walli",
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
         "onCommand:extension.addTask",
         "onCommand:extension.addTaskAbove",
         "onCommand:extension.completeTask",
         "onCommand:extension.cancelTask"
-	],
-	"main": "./out/src/extension",
-	"contributes": {
-		"commands": [{
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
                 "command": "extension.addTask",
                 "title": "Tasks: Add Task"
-                }, {
+            },
+            {
                 "command": "extension.addTask",
                 "title": "Tasks: Add Task above"
-            }, {
+            },
+            {
                 "command": "extension.completeTask",
                 "title": "Tasks: Complete Task"
-            }, {
+            },
+            {
                 "command": "extension.cancelTask",
                 "title": "Tasks: Cancel Task"
-            }], 
-        "keybindings": [{
+            }
+        ],
+        "keybindings": [
+            {
                 "key": "alt+enter",
                 "command": "extension.addTask",
                 "when": "editorTextFocus"
-            }, {
+            },
+            {
                 "key": "alt+shift+enter",
                 "command": "extension.addTask",
                 "when": "editorTextFocus"
-            }, {
+            },
+            {
                 "key": "alt+d",
                 "command": "extension.completeTask",
                 "when": "editorTextFocus"
-            }, {
+            },
+            {
                 "key": "alt+a",
                 "command": "extension.cancelTask",
                 "when": "editorTextFocus"
-        }]
-	},
-	"scripts": {
-		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
-	},
-	"devDependencies": {
-		"typescript": "^1.8.5",
-		"vscode": "^0.11.0"
-	}
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.5",
+        "vscode": "^0.11.0"
+    }
 }
