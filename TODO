@@ -3,6 +3,7 @@ FEATURES:
 	☐ add done message
 	☐ add cancel message
 	☐ add timestamp
+	✔ convert task
 
 Design:
 	☐ Syntax-Highlight
