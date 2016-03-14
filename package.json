@@ -1,73 +1,73 @@
 {
-  "name": "vsc-tasks",
-  "displayName": "vsc-tasks",
-  "description": "Handle tasks/todo files in Visual Studio Code",
-  "version": "0.1.0",
-  "publisher": "walli",
-  "icon": "images/icon.png",
-  "engines": {
-    "vscode": "^0.10.10"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:extension.addTask",
-    "onCommand:extension.addTaskAbove",
-    "onCommand:extension.completeTask",
-    "onCommand:extension.cancelTask"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "extension.addTask",
-        "title": "Tasks: Add Task"
-      },
-      {
-        "command": "extension.addTask",
-        "title": "Tasks: Add Task above"
-      },
-      {
-        "command": "extension.completeTask",
-        "title": "Tasks: Complete Task"
-      },
-      {
-        "command": "extension.cancelTask",
-        "title": "Tasks: Cancel Task"
-      }
+    "name": "vsc-tasks",
+    "displayName": "vsc-tasks",
+    "description": "Handle tasks/todo files in Visual Studio Code",
+    "version": "0.2.0",
+    "publisher": "walli",
+    "icon": "images/icon.png",
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "key": "alt+enter",
-        "command": "extension.addTask",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+shift+enter",
-        "command": "extension.addTask",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+d",
-        "command": "extension.completeTask",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+a",
-        "command": "extension.cancelTask",
-        "when": "editorTextFocus"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
-  },
-  "devDependencies": {
-    "moment": "^2.12.0",
-    "typescript": "^1.8.5",
-    "vscode": "^0.11.0"
-  }
+    "activationEvents": [
+        "onCommand:extension.addTask",
+        "onCommand:extension.addTaskAbove",
+        "onCommand:extension.completeTask",
+        "onCommand:extension.cancelTask"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.addTask",
+                "title": "Tasks: Add Task"
+            },
+            {
+                "command": "extension.addTask",
+                "title": "Tasks: Add Task above"
+            },
+            {
+                "command": "extension.completeTask",
+                "title": "Tasks: Complete Task"
+            },
+            {
+                "command": "extension.cancelTask",
+                "title": "Tasks: Cancel Task"
+            }
+        ],
+        "keybindings": [
+            {
+                "key": "alt+enter",
+                "command": "extension.addTask",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+shift+enter",
+                "command": "extension.addTask",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+d",
+                "command": "extension.completeTask",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+a",
+                "command": "extension.cancelTask",
+                "when": "editorTextFocus"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "moment": "^2.12.0",
+        "typescript": "^1.8.5",
+        "vscode": "^0.11.0"
+    }
 }
