@@ -11,7 +11,7 @@ Open the Command Palette in Visual Studio Code (Ctrl+P or Cmd-P) and enter:
 
 ## Hotkeys
 * **Alt-Enter:** add a new todo item below the current
-* **Alt-Shift-Enter:** add a new todo item above the current (coming soon)
+* **Alt-Shift-Enter:** add a new todo item above the current
 * **Alt-D:** toggle completion for current task
 * **Alt-A:** cancel current task
 * **Alt-C:** convert current task

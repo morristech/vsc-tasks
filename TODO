@@ -1,9 +1,10 @@
 FEATURES:
-	☐ add task above
+	✔ add task above
 	☐ add done message
 	☐ add cancel message
 	☐ add timestamp
 	✔ convert task
+	☐ add archive
 
 Design:
 	☐ Syntax-Highlight

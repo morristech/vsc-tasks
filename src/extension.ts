@@ -70,7 +70,8 @@ class Task {
     function insertLineAbove(): any {
       editor.edit( editBuilder => {
         editBuilder.insert(info.prevLine, '\n\t' + info.marker + ' ');
-      })
+      });
+      editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
     }
   }
   
