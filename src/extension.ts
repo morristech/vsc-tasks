@@ -1,27 +1,27 @@
 'use strict';
 import * as vscode from 'vscode';
-const moment = require('moment');
+import * as moment from 'moment';
 
 export function activate(context: vscode.ExtensionContext) {
   let task = new Task();
   
-  let addTask = vscode.commands.registerCommand('extension.addTask', () => {
+  let addTask = vscode.commands.registerCommand('tasks.addTask', () => {
      task.add(true);
   });
   
-  let addTaskAbove = vscode.commands.registerCommand('extension.addTaskAbove', () => {
+  let addTaskAbove = vscode.commands.registerCommand('tasks.addTaskAbove', () => {
     task.add(false);
   });
   
-  let completeTask = vscode.commands.registerCommand('extension.completeTask', () => {
+  let completeTask = vscode.commands.registerCommand('tasks.completeTask', () => {
     task.complete();
   });
   
-  let cancelTask = vscode.commands.registerCommand('extension.cancelTask', () => {
+  let cancelTask = vscode.commands.registerCommand('tasks.cancelTask', () => {
     task.cancel();
   });
   
-  let convertTask = vscode.commands.registerCommand('extension.convertTask', () => {
+  let convertTask = vscode.commands.registerCommand('tasks.convertTask', () => {
     task.convert();
   });
   
