@@ -1,6 +1,6 @@
 'use strict';
 import * as vscode from 'vscode';
-import * as moment from 'moment';
+const moment = require('moment');
 
 export function activate(context: vscode.ExtensionContext) {
   let task = new Task();
