@@ -1,11 +1,14 @@
 FEATURES:
 	✔ add task above
-	☐ add done message
-	☐ add cancel message
-	☐ add timestamp
 	✔ convert task
+	✔ add done message
+	✔ add cancel message
+	✔ add timestamp
 	☐ add archive
 
 Design:
 	☐ Syntax-Highlight
 	☐ todo-files only
+  
+Bug:
+  ☐ add Task below not moving cursor, when cursor is inbetween text

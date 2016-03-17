@@ -1,12 +1,12 @@
 'use strict';
 import * as vscode from 'vscode';
-import {EOL} from 'os';
+import * as moment from 'moment';
 
 export function activate(context: vscode.ExtensionContext) {
   let task = new Task();
   
   let addTask = vscode.commands.registerCommand('extension.addTask', () => {
-     task.add(true); 
+     task.add(true);
   });
   
   let addTaskAbove = vscode.commands.registerCommand('extension.addTaskAbove', () => {
@@ -34,39 +34,32 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 class Task {
-  
   private config = {
     baseMarker: '☐',
     cancelMarker: '✘',
     completeMarker: '✔',
     doneMessage: ' @done',
     cancelMessage: ' @canceled'
-  };  
+  };
   
   public add(stage: boolean): any {
     let editor: any = vscode.window.activeTextEditor;
     if (!editor) {
       return;
     }
-    
     let config: any = this.config;
-    
-    //get current position
+    // get current position
     let currentLine: number = editor.selection.active.line;
-    
-    //get info
+    // get info
     let info: any = this.getLineinfo(editor, currentLine, config.baseMarker);
-    
-    //insert line below or above
-    stage ? insertLineBelow() : insertLineAbove()
-    
-    //helper-functions
+    // insert line below or above
+    stage ? insertLineBelow() : insertLineAbove();
+    // helper-functions
     function insertLineBelow(): any {
       editor.edit( editBuilder => {
         editBuilder.insert(info.lineEnd, '\n\t' + info.marker + ' ');
-      })
+      });
     }
-    
     function insertLineAbove(): any {
       editor.edit( editBuilder => {
         editBuilder.insert(info.prevLine, '\n\t' + info.marker + ' ');
@@ -80,28 +73,21 @@ class Task {
     if (!editor) {
       return;
     }
-    
     let config: any = this.config;
     let replaceLine: any = this.replaceLine;
-    let appendMessage: any = this.appendMessage;
-    
-    //get current position
+    // get current position
     let currentLine: number = editor.selection.active.line;
-    
-    //get info
-    let info:any = this.getLineinfo(editor, currentLine, config.completeMarker);
-    
+    // get info
+    let info: any = this.getLineinfo(editor, currentLine, config.completeMarker);
     if (info.containsBase !== -1) {
-      //baseMarker => completeMarker
-      replaceLine(editor, info, config.baseMarker, info.marker, '');
-      appendMessage(editor, info, config.doneMessage);
+      // baseMarker => completeMarker
+      replaceLine(editor, info, config.baseMarker, info.marker, config.doneMessage, 'append');
     } else if (info.containsComplete !== -1) {
-      //completeMarker => baseMarker
-      replaceLine(editor, info, info.marker, config.baseMarker, config.doneMessage)
+      // completeMarker => baseMarker
+      replaceLine(editor, info, info.marker, config.baseMarker, config.doneMessage, '');
     } else if (info.containsCancel !== -1) {
-      //cancelMarker => completeMarker 
-      replaceLine(editor, info, config.cancelMarker, info.marker, config.cancelMessage);
-      appendMessage(editor, info, config.doneMessage);
+      // cancelMarker => completeMarker 
+      replaceLine(editor, info, config.cancelMarker, info.marker, config.cancelMessage, config.doneMessage);
     }
   }
   
@@ -110,28 +96,21 @@ class Task {
     if (!editor) {
       return;
     }
-    
     let config: any = this.config;
     let replaceLine: any = this.replaceLine;
-    let appendMessage: any = this.appendMessage;
-    
-    //get current position
+    // get current position
     let currentLine: number = editor.selection.active.line;
-    
-    //get info
+    // get info
     let info: any = this.getLineinfo(editor, currentLine, config.cancelMarker);
-    
     if (info.containsBase !== -1) {
-      //baseMarker => cancelMarker
-      replaceLine(editor, info, config.baseMarker, info.marker, '');
-      appendMessage(editor, info, config.cancelMessage);
+      // baseMarker => cancelMarker
+      replaceLine(editor, info, config.baseMarker, info.marker, config.cancelMessage, 'append');
     } else if (info.containsComplete !== -1) {
-      //completeMarker => cancelMarker
-      replaceLine(editor, info, config.completeMarker, info.marker, config.doneMessage);
-      appendMessage(editor, info, config.cancelMessage);
+      // completeMarker => cancelMarker
+      replaceLine(editor, info, config.completeMarker, info.marker, config.doneMessage, config.cancelMessage);
     } else if (info.containsCancel !== -1) {
-      //cancelMarker => baseMarker
-      replaceLine(editor, info, info.marker, config.baseMarker, config.cancelMessage);
+      // cancelMarker => baseMarker
+      replaceLine(editor, info, info.marker, config.baseMarker, config.cancelMessage, '');
     }
   }
   
@@ -140,19 +119,15 @@ class Task {
     if (!editor) {
       return;
     }
-    
     let config: any = this.config;
-    
-    //get current position
+    // get current position
     let currentLine: number = editor.selection.active.line;
-    
-    //get info
+    // get info
     let info: any = this.getLineinfo(editor, currentLine, config.baseMarker);
-    
     if (info.containsBase === -1 && info.containsComplete === -1 && info.containsCancel === -1) {
       editor.edit( editBuilder => {
         editBuilder.insert(info.firstNonWhitePos, info.marker + ' ');
-      })
+      });
     }
   }
   
@@ -167,9 +142,10 @@ class Task {
     if (lineNumber === 0) {
       prevLine = new vscode.Position(0, lineText.length);
     } else {
-      prevLine = new vscode.Position(lineNumber -1, lineText.length);
+      let prevLineText: string = editor.document.lineAt(lineNumber - 1).text;
+      prevLine = new vscode.Position(lineNumber - 1, prevLineText.length);
     }
-    let containsBase: number = lineText.indexOf(config.baseMarker) 
+    let containsBase: number = lineText.indexOf(config.baseMarker);
     let containsComplete: number = lineText.indexOf(config.completeMarker);
     let containsCancel: number = lineText.indexOf(config.cancelMarker);
     let result = {
@@ -187,23 +163,28 @@ class Task {
     return result;
   }
   
-  private replaceLine(editor: any, info: any, markerFrom: string, markerTo: string, messageFrom: string): any {
+  private replaceLine(editor: any, info: any, markerFrom: string, markerTo: string, messageFrom: string, messageTo: string): any {
     let newLine: string;
-    if (messageFrom !== '') {
-      newLine = info.lineText.replace(markerFrom, markerTo).replace(messageFrom, '');
+    if (messageTo === 'append') {
+      newLine = info.lineText.replace(markerFrom, markerTo) + messageFrom + ' ( ' + moment().format('MMMM Do YYYY, h:mm:ss') + ' )';
+    } else if (messageTo === '') {
+      newLine = info.lineText.replace(markerFrom, markerTo)
+      newLine = removeString(newLine, newLine.indexOf(messageFrom), newLine.length);
     } else {
-      newLine = info.lineText.replace(markerFrom, markerTo);
+      newLine = info.lineText.replace(markerFrom, markerTo)
+      newLine = removeString(newLine, newLine.indexOf(messageFrom), newLine.length);
+      newLine = newLine + messageTo + ' ( ' + moment().format('MMMM Do YYYY, h:mm:ss') + ' )';
     }
     editor.edit (editBuilder => {
       editBuilder.replace(info.lineRange, newLine);
-    })  
+    });
+    editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
+    
+    function removeString(str, start, end) {
+      return str.substr(0, start) + str.substr(start + end);
+    }
   }
   
-  private appendMessage(editor: any, info: any, message: string): any {
-    editor.edit (editBuilder => {
-      editBuilder.insert(info.lineEnd, message);
-    })
-  }
   dispose(): any {}
 }
 
