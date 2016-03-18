@@ -7,9 +7,9 @@ FEATURES:
 	☐ add archive
 
 Design:
-	☐ Syntax-Highlight
-	☐ todo-files only
+	✘ Syntax-Highlight (there is no todo language integrated ?) @canceled ( March 18th 2016, 1:16:55 pm )
+	✘ todo-files only (there is no todo language integrated ?) @canceled ( March 18th 2016, 1:16:56 pm )
   
 Bug:
 	✔ moment js is crashing when publishing -> node_modules wont publish -> push moment to dependencies in package.json and remove from devdepenedencies @done ( March 18th 2016, 9:37:05 am )
-  ☐ add Task below not moving cursor, when cursor is inbetween text
+  ✔ add Task below not moving cursor, when cursor is inbetween text @done ( March 18th 2016, 1:22:21 pm )

@@ -59,6 +59,8 @@ class Task {
       editor.edit( editBuilder => {
         editBuilder.insert(info.lineEnd, '\n\t' + info.marker + ' ');
       });
+      let nextLineEnd: vscode.Position = editor.document.lineAt(currentLine + 1).range.end;
+      editor.selection = new vscode.Selection(nextLineEnd, nextLineEnd);
     }
     function insertLineAbove(): any {
       editor.edit( editBuilder => {
