@@ -1,9 +1,9 @@
 FEATURES:
-	✔ add task above
-	✔ convert task
-	✔ add done message
-	✔ add cancel message
-	✔ add timestamp
+	✔ add task above @done ( March 18th 2016, 9:35:54 am )
+	✔ convert task @done ( March 18th 2016, 9:35:55 am )
+	✔ add done message @done ( March 18th 2016, 9:35:55 am )
+	✔ add cancel message @done ( March 18th 2016, 9:35:56 am )
+	✔ add timestamp @done ( March 18th 2016, 9:35:56 am )
 	☐ add archive
 
 Design:
@@ -11,4 +11,5 @@ Design:
 	☐ todo-files only
   
 Bug:
+	✔ moment js is crashing when publishing -> node_modules wont publish -> push moment to dependencies in package.json and remove from devdepenedencies @done ( March 18th 2016, 9:37:05 am )
   ☐ add Task below not moving cursor, when cursor is inbetween text

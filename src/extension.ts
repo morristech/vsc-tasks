@@ -166,14 +166,14 @@ class Task {
   private replaceLine(editor: any, info: any, markerFrom: string, markerTo: string, messageFrom: string, messageTo: string): any {
     let newLine: string;
     if (messageTo === 'append') {
-      newLine = info.lineText.replace(markerFrom, markerTo) + messageFrom + ' ( ' + moment().format('MMMM Do YYYY, h:mm:ss') + ' )';
+      newLine = info.lineText.replace(markerFrom, markerTo) + messageFrom + ' ( ' + moment().format('MMMM Do YYYY, h:mm:ss a') + ' )';
     } else if (messageTo === '') {
       newLine = info.lineText.replace(markerFrom, markerTo)
       newLine = removeString(newLine, newLine.indexOf(messageFrom), newLine.length);
     } else {
       newLine = info.lineText.replace(markerFrom, markerTo)
       newLine = removeString(newLine, newLine.indexOf(messageFrom), newLine.length);
-      newLine = newLine + messageTo + ' ( ' + moment().format('MMMM Do YYYY, h:mm:ss') + ' )';
+      newLine = newLine + messageTo + ' ( ' + moment().format('MMMM Do YYYY, h:mm:ss a') + ' )';
     }
     editor.edit (editBuilder => {
       editBuilder.replace(info.lineRange, newLine);

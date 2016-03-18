@@ -2,7 +2,7 @@
   "name": "vsc-tasks",
   "displayName": "vsc-tasks",
   "description": "Handle tasks/todo files in Visual Studio Code",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "publisher": "walli",
   "icon": "images/icon.png",
   "engines": {
@@ -76,9 +76,10 @@
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "devDependencies": {
-    "moment": "^2.12.0",
     "typescript": "^1.8.5",
     "vscode": "^0.11.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "moment": "^2.12.0"
+  }
 }
