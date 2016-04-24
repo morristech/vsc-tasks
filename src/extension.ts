@@ -58,15 +58,17 @@ class Task {
     function insertLineBelow(): any {
       editor.edit( editBuilder => {
         editBuilder.insert(info.lineEnd, '\n\t' + info.marker + ' ');
+      }).then(() =>{
+        let nextLineEnd: vscode.Position = editor.document.lineAt(currentLine + 1).range.end;
+        editor.selection = new vscode.Selection(nextLineEnd, nextLineEnd);
       });
-      let nextLineEnd: vscode.Position = editor.document.lineAt(currentLine + 1).range.end;
-      editor.selection = new vscode.Selection(nextLineEnd, nextLineEnd);
     }
     function insertLineAbove(): any {
       editor.edit( editBuilder => {
         editBuilder.insert(info.prevLine, '\n\t' + info.marker + ' ');
+      }).then(() => {
+        editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
       });
-      editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
     }
   }
   
@@ -180,8 +182,9 @@ class Task {
     }
     editor.edit (editBuilder => {
       editBuilder.replace(info.lineRange, newLine);
+    }).then(() => {
+      editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
     });
-    editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
     
     function removeString(str, start, end) {
       return str.substr(0, start) + str.substr(start + end);
