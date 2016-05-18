@@ -2,7 +2,7 @@
   "name": "vsc-tasks",
   "displayName": "vsc-tasks",
   "description": "Handle tasks/todo files in Visual Studio Code",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "publisher": "walli",
   "icon": "images/icon.png",
   "engines": {
@@ -23,23 +23,23 @@
     "commands": [
       {
         "command": "tasks.addTask",
-        "title": "Tasks: Add Task"
+        "title": "vsc-tasks: add task below"
       },
       {
         "command": "tasks.addTaskAbove",
-        "title": "Tasks: Add Task above"
+        "title": "vsc-tasks: add task above"
       },
       {
         "command": "tasks.completeTask",
-        "title": "Tasks: Complete Task"
+        "title": "vsc-tasks: complete task"
       },
       {
         "command": "tasks.cancelTask",
-        "title": "Tasks: Cancel Task"
+        "title": "vsc-tasks: cancel task"
       },
       {
         "command": "tasks.convertTask",
-        "title": "Tasks: Convert Task"
+        "title": "vsc-tasks: convert task"
       }
     ],
     "keybindings": [
