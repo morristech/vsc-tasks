@@ -73,26 +73,36 @@ class Task {
   }
   
   public complete(): any {
-    let editor: any = vscode.window.activeTextEditor;
+    let editor = vscode.window.activeTextEditor;
     if (!editor) {
       return;
     }
     let config: any = this.config;
-    let replaceLine: any = this.replaceLine;
-    // get current position
-    let currentLine: number = editor.selection.active.line;
-    // get info
-    let info: any = this.getLineinfo(editor, currentLine, config.completeMarker);
-    if (info.containsBase !== -1) {
-      // baseMarker => completeMarker
-      replaceLine(editor, info, config.baseMarker, info.marker, config.doneMessage, 'append');
-    } else if (info.containsComplete !== -1) {
-      // completeMarker => baseMarker
-      replaceLine(editor, info, info.marker, config.baseMarker, config.doneMessage, '');
-    } else if (info.containsCancel !== -1) {
-      // cancelMarker => completeMarker 
-      replaceLine(editor, info, config.cancelMarker, info.marker, config.cancelMessage, config.doneMessage);
-    }
+    let replaceLine: any = this.replaceLineMulti;
+    // get all selected lines
+    let infos: any = [];
+    editor.selections.forEach(line => {
+      infos.push(this.getLineinfo(editor, line.active.line, config.completeMarker));
+    });
+    editor.edit (editBuilder => {
+      infos.forEach(info => {
+        if (info.containsBase !== -1) {
+          // baseMarker => completeMarker
+          replaceLine(editBuilder, info, config.baseMarker, info.marker, config.doneMessage, 'append');
+        } else if (info.containsComplete !== -1) {
+          // completeMarker => baseMarker
+          replaceLine(editBuilder, info, info.marker, config.baseMarker, config.doneMessage, '');
+        } else if (info.containsCancel !== -1) {
+          // cancelMarker => completeMarker 
+          replaceLine(editBuilder, info, config.cancelMarker, info.marker, config.cancelMessage, config.doneMessage);
+        }
+      });
+    }).then(() => {
+      for (var i = 0; i < editor.selections.length; i++) {
+        let line = editor.document.lineAt(editor.selections[i].active.line);
+        editor.selections[i] = new vscode.Selection(line.range.end, line.range.end);
+      }
+    });
   }
   
   public cancel(): any {
@@ -101,38 +111,53 @@ class Task {
       return;
     }
     let config: any = this.config;
-    let replaceLine: any = this.replaceLine;
-    // get current position
-    let currentLine: number = editor.selection.active.line;
-    // get info
-    let info: any = this.getLineinfo(editor, currentLine, config.cancelMarker);
-    if (info.containsBase !== -1) {
-      // baseMarker => cancelMarker
-      replaceLine(editor, info, config.baseMarker, info.marker, config.cancelMessage, 'append');
-    } else if (info.containsComplete !== -1) {
-      // completeMarker => cancelMarker
-      replaceLine(editor, info, config.completeMarker, info.marker, config.doneMessage, config.cancelMessage);
-    } else if (info.containsCancel !== -1) {
-      // cancelMarker => baseMarker
-      replaceLine(editor, info, info.marker, config.baseMarker, config.cancelMessage, '');
-    }
+    let replaceLine: any = this.replaceLineMulti;
+    // get all selected lines
+    let infos: any = [];
+    editor.selections.forEach(line => {
+      infos.push(this.getLineinfo(editor, line.active.line, config.cancelMarker));
+    });
+    editor.edit (editBuilder => {
+      infos.forEach(info => {
+        if (info.containsBase !== -1) {
+          // baseMarker => cancelMarker
+          replaceLine(editBuilder, info, config.baseMarker, info.marker, config.cancelMessage, 'append');
+        } else if (info.containsComplete !== -1) {
+          // completeMarker => cancelMarker
+          replaceLine(editBuilder, info, config.completeMarker, info.marker, config.doneMessage, config.cancelMessage);
+        } else if (info.containsCancel !== -1) {
+          // cancelMarker => baseMarker
+          replaceLine(editBuilder, info, info.marker, config.baseMarker, config.cancelMessage, '');
+        }
+      });
+    }).then(() => {
+      for (var i = 0; i < editor.selections.length; i++) {
+        let line = editor.document.lineAt(editor.selections[i].active.line);
+        editor.selections[i] = new vscode.Selection(line.range.end, line.range.end);
+      }
+    });
   }
   
   public convert(): any {
-    let editor: any = vscode.window.activeTextEditor;
+    let editor = vscode.window.activeTextEditor;
     if (!editor) {
       return;
     }
     let config: any = this.config;
-    // get current position
-    let currentLine: number = editor.selection.active.line;
-    // get info
-    let info: any = this.getLineinfo(editor, currentLine, config.baseMarker);
-    if (info.containsBase === -1 && info.containsComplete === -1 && info.containsCancel === -1) {
-      editor.edit( editBuilder => {
-        editBuilder.insert(info.firstNonWhitePos, info.marker + ' ');
+    // convert all selected lines
+    editor.edit (editBuilder => {
+      editor.selections.forEach(line => {
+        let info: any = this.getLineinfo(editor, line.start.line, config.baseMarker);
+        if (info.containsBase === -1 && info.containsComplete === -1 && info.containsCancel === -1) {
+          editBuilder.insert(info.firstNonWhitePos, info.marker + ' ');
+          for (var i = line.start.line + 1; i <= line.end.line; i++)
+          {
+            let line = editor.document.lineAt(i);
+            editBuilder.insert(new vscode.Position(i, line.firstNonWhitespaceCharacterIndex), '   ');
+          }
+        }
       });
-    }
+    })
   }
   
   private getLineinfo(editor, lineNumber: number, marker: string): Object {
@@ -168,6 +193,14 @@ class Task {
   }
   
   private replaceLine(editor: any, info: any, markerFrom: string, markerTo: string, messageFrom: string, messageTo: string): any {
+    editor.edit (editBuilder => {
+      this.replaceLineMulti(editBuilder, info, markerFrom, markerTo, messageFrom, messageTo);
+    }).then(() => {
+      editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
+    });
+  }
+  
+  private replaceLineMulti(editBuilder: any, info: any, markerFrom: string, markerTo: string, messageFrom: string, messageTo: string): any {
     let newLine: string;
     let format: string = 'MMMM Do YYYY, H:mm';
     if (messageTo === 'append') {
@@ -180,11 +213,7 @@ class Task {
       newLine = removeString(newLine, newLine.indexOf(messageFrom), newLine.length);
       newLine = newLine + messageTo + ' (' + moment().format(format) + ')';
     }
-    editor.edit (editBuilder => {
-      editBuilder.replace(info.lineRange, newLine);
-    }).then(() => {
-      editor.selection = new vscode.Selection(info.lineEnd, info.lineEnd);
-    });
+    editBuilder.replace(info.lineRange, newLine);
     
     function removeString(str, start, end) {
       return str.substr(0, start) + str.substr(start + end);
