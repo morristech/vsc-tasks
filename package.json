@@ -1,85 +1,85 @@
 {
-  "name": "vsc-tasks",
-  "displayName": "vsc-tasks",
-  "description": "Handle tasks/todo files in Visual Studio Code",
-  "version": "0.7.1",
-  "publisher": "walli",
-  "icon": "images/icon.png",
-  "engines": {
-    "vscode": "^0.10.10"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:tasks.addTask",
-    "onCommand:tasks.addTaskAbove",
-    "onCommand:tasks.completeTask",
-    "onCommand:tasks.cancelTask",
-    "onCommand:tasks.convertTask"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "tasks.addTask",
-        "title": "vsc-tasks: add task below"
-      },
-      {
-        "command": "tasks.addTaskAbove",
-        "title": "vsc-tasks: add task above"
-      },
-      {
-        "command": "tasks.completeTask",
-        "title": "vsc-tasks: complete task"
-      },
-      {
-        "command": "tasks.cancelTask",
-        "title": "vsc-tasks: cancel task"
-      },
-      {
-        "command": "tasks.convertTask",
-        "title": "vsc-tasks: convert task"
-      }
+    "name": "vsc-tasks",
+    "displayName": "vsc-tasks",
+    "description": "Handle tasks/todo files in Visual Studio Code",
+    "version": "0.9.0",
+    "publisher": "walli",
+    "icon": "images/icon.png",
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "key": "alt+enter",
-        "command": "tasks.addTask",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+shift+enter",
-        "command": "tasks.addTaskAbove",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+d",
-        "command": "tasks.completeTask",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+a",
-        "command": "tasks.cancelTask",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+c",
-        "command": "tasks.convertTask",
-        "when": "editorTextFocus"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
-  },
-  "devDependencies": {
-    "typescript": "^1.8.5",
-    "vscode": "^0.11.0"
-  },
-  "dependencies": {
-    "moment": "^2.12.0"
-  }
+    "activationEvents": [
+        "onCommand:tasks.addTask",
+        "onCommand:tasks.addTaskAbove",
+        "onCommand:tasks.completeTask",
+        "onCommand:tasks.cancelTask",
+        "onCommand:tasks.convertTask"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "tasks.addTask",
+                "title": "vsc-tasks: add task below"
+            },
+            {
+                "command": "tasks.addTaskAbove",
+                "title": "vsc-tasks: add task above"
+            },
+            {
+                "command": "tasks.completeTask",
+                "title": "vsc-tasks: complete task"
+            },
+            {
+                "command": "tasks.cancelTask",
+                "title": "vsc-tasks: cancel task"
+            },
+            {
+                "command": "tasks.convertTask",
+                "title": "vsc-tasks: convert task"
+            }
+        ],
+        "keybindings": [
+            {
+                "key": "alt+enter",
+                "command": "tasks.addTask",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+shift+enter",
+                "command": "tasks.addTaskAbove",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+d",
+                "command": "tasks.completeTask",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+a",
+                "command": "tasks.cancelTask",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "alt+c",
+                "command": "tasks.convertTask",
+                "when": "editorTextFocus"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.5",
+        "vscode": "^0.11.0"
+    },
+    "dependencies": {
+        "moment": "^2.12.0"
+    }
 }
